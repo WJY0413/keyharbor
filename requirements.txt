@@ -1,0 +1,6 @@
+# Verified with Python 3.14 on Windows; existing gateway venv is reused.
+litellm[proxy]==1.102.0
+aiohttp==3.14.3
+httpx==0.28.1
+PyYAML==6.0.3
+tomlkit==0.15.1
