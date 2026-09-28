@@ -57,6 +57,20 @@ Copy-Item registry.example.json registry.json
 
 启动器默认使用项目 `.venv`，可用 `KEYHARBOR_PYTHON` 或不提交 Git 的 `tools/runtime.local.json` 指定 Python。验证工具支持 `--codex-cli` 指定 Codex 可执行文件。
 
+## Jarvis 旧客户端兼容入口
+
+如果已安装的 Jarvis 客户端要求旧式健康检查标识，可启用 KeyHarbor 的本机兼容入口（默认 `4105`）：
+
+```powershell
+.\tools\start.ps1 -WithWatchdog -WithLegacyBridge
+python tools/connect_jarvis.py --launcher-config "PATH_TO_LAUNCHER_CONFIG" --adapter-module "PATH_TO_INSTALLED_JARVIS_CONNECTION_PY" --backup-root "PATH_TO_LOCAL_BACKUPS"
+# 确认预检结果后，使用相同参数追加 --apply
+```
+
+兼容入口把调用转发到 KeyHarbor 主网关，不另存秘钥或模型配置。迁移工具先使用指定的已安装 Jarvis 适配器验证全部模型路由和官方直连，再备份、更新并读回启动配置；保留其他设置和旧连接用于恢复。
+
+迁移影响重新读取配置的新任务，不重启或改写在途任务。绑定的是迁移时的模型列表：后续新增模型需要重新运行迁移工具。旧 Jarvis 适配器可能限制模型前缀；不兼容时预检拒绝写入，需要单独升级客户端。KeyHarbor 本身不限制接入命名。
+
 ## 安全与运行边界
 
 - 仅监听 loopback，管理操作检查同源与 CSRF。仅适用于受信任的单用户本机环境，不面向公网或多用户管理。

@@ -37,6 +37,8 @@ def main():
         sub.add_parser(name)
     admin = sub.add_parser('admin', help='Local web control panel')
     admin.add_argument('--port', type=int, default=4104)
+    bridge = sub.add_parser('legacy-bridge', help='Compatibility listener backed by KeyHarbor')
+    bridge.add_argument('--port', type=int, default=4105)
     reset = sub.add_parser('key-reset', help='Retry a repaired/recharged key; does not change its credential')
     reset.add_argument('id')
     key = sub.add_parser('key-set', help='Local hidden credential input; no command-line secret')
@@ -48,6 +50,10 @@ def main():
         p.add_argument('--backup-root', default=None)
         p.add_argument('--port', type=int, default=4103)
     args = parser.parse_args()
+    if args.command == 'legacy-bridge':
+        from keyharbor.legacy_bridge import run
+        run(args.registry,args.port)
+        return
     if args.command == 'admin':
         from .admin import run
         run(args.registry, args.runtime, args.port)
