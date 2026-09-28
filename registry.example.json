@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "port": 4103,
+  "refresh_seconds": 300,
+  "web_models": [],
+  "keys": []
+}

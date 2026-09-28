@@ -1,0 +1,21 @@
+output/
+runtime/
+__pycache__/
+*.pyc
+.venv/
+*.dpapi
+# Local connection profiles and machine-specific acceptance evidence are not source.
+/registry.json
+/ACCEPTANCE.md
+/tools/runtime.local.json
+backups/
+auth.json
+*.pem
+*.key
+*.pfx
+*.p12
+.env
+.env.*
+!.env.example
+secrets/
+*.log
